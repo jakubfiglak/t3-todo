@@ -1,7 +1,11 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 
+import { api } from "~/utils/api";
+
 const Todos: NextPage = () => {
+  const { data } = api.todos.getAll.useQuery();
+
   return (
     <>
       <Head>
@@ -17,21 +21,27 @@ const Todos: NextPage = () => {
           <span>🌕</span>
         </div>
       </header>
-      <main className="px-6">
-        <div className="-mt-20 h-96 rounded-xl">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log(e);
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Create a new todo..."
-              className="w-full rounded-md px-5 py-3"
-            />
-          </form>
-        </div>
+      <main className="-mt-20 px-6">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            console.log(e);
+          }}
+          className="mb-4"
+        >
+          <input
+            type="text"
+            placeholder="Create a new todo..."
+            className="w-full rounded-md px-5 py-3"
+          />
+        </form>
+        <ul className="divide-y rounded-md bg-white shadow-lg">
+          {data?.map((todo) => (
+            <li key={todo.id} className="px-5 py-4">
+              {todo.text}
+            </li>
+          ))}
+        </ul>
       </main>
     </>
   );
