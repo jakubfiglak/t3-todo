@@ -10,8 +10,17 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+enum TodoStatus {
+    ACTIVE
+    COMPLETED
+}
+
+model Todo {
+    id        String     @id @default(cuid())
+    text      String
+    status    TodoStatus @default(ACTIVE)
+    authorId  String
+    isVisible Boolean    @default(true)
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
 }
