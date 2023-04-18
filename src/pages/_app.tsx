@@ -36,7 +36,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   // Otherwise, use Clerk to require authentication
   return (
     <ClerkProvider {...pageProps}>
-      <main className={`${josefin.variable} font-sans`}>
+      <div className={`${josefin.variable} font-sans`}>
         {isPublicPage ? (
           <Component {...pageProps} />
         ) : (
@@ -49,7 +49,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             </SignedOut>
           </>
         )}
-      </main>
+      </div>
     </ClerkProvider>
   );
 };
