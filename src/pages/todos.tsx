@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 
+import { TodoForm } from "~/modules/todos/components";
 import { useCreateTodo, useTodos } from "~/modules/todos/hooks";
 
 const Todos: NextPage = () => {
@@ -23,23 +24,10 @@ const Todos: NextPage = () => {
         </div>
       </header>
       <main className="-mt-20 px-6">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            return createTodo.mutate({
-              text: (e.target as unknown as { text: { value: string } }).text
-                .value,
-            });
-          }}
+        <TodoForm
+          onSubmit={(data) => createTodo.mutate(data)}
           className="mb-4"
-        >
-          <input
-            type="text"
-            name="text"
-            placeholder="Create a new todo..."
-            className="w-full rounded-md px-5 py-3"
-          />
-        </form>
+        />
         <ul className="divide-y rounded-md bg-white shadow-lg">
           {todos.data?.map((todo) => (
             <li key={todo.id} className="px-5 py-4">
