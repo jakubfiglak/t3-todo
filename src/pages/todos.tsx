@@ -2,9 +2,47 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import { api } from "~/utils/api";
+import { generateRandomId } from "~/utils/helpers";
 
 const Todos: NextPage = () => {
-  const { data } = api.todos.getAll.useQuery();
+  const ctx = api.useContext();
+
+  const todos = api.todos.getAll.useQuery();
+  const createTodo = api.todos.create.useMutation({
+    onMutate: async (input) => {
+      // Cancel any outgoing refetches
+      // (so they don't overwrite the optimistic update)
+      await ctx.todos.getAll.cancel();
+
+      // Snapshot the previous value
+      const previousTodos = ctx.todos.getAll.getData();
+
+      // Optimistically update to the new value
+      ctx.todos.getAll.setData(undefined, (old) => [
+        ...(old || []),
+        {
+          id: generateRandomId(),
+          text: input.text,
+          authorId: generateRandomId(),
+          status: "ACTIVE",
+          isVisible: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ]);
+
+      return { previousTodos };
+    },
+    // If the mutation fails,
+    // use the context returned from onMutate to roll back
+    onError: (err, input, context) => {
+      ctx.todos.getAll.setData(undefined, context?.previousTodos);
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      void ctx.todos.getAll.invalidate();
+    },
+  });
 
   return (
     <>
@@ -25,18 +63,22 @@ const Todos: NextPage = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            console.log(e);
+            return createTodo.mutate({
+              text: (e.target as unknown as { text: { value: string } }).text
+                .value,
+            });
           }}
           className="mb-4"
         >
           <input
             type="text"
+            name="text"
             placeholder="Create a new todo..."
             className="w-full rounded-md px-5 py-3"
           />
         </form>
         <ul className="divide-y rounded-md bg-white shadow-lg">
-          {data?.map((todo) => (
+          {todos.data?.map((todo) => (
             <li key={todo.id} className="px-5 py-4">
               {todo.text}
             </li>
