@@ -1,10 +1,6 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  privateProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 export const todosRouter = createTRPCRouter({
   create: privateProcedure
@@ -17,7 +13,9 @@ export const todosRouter = createTRPCRouter({
         },
       });
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.todo.findMany();
+  getAll: privateProcedure.query(({ ctx }) => {
+    return ctx.prisma.todo.findMany({
+      where: { authorId: { equals: ctx.userId } },
+    });
   }),
 });
