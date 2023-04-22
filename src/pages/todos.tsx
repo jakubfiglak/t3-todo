@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 
-import { TodoForm } from "~/modules/todos/components";
+import { TodoForm, TodoItem } from "~/modules/todos/components";
 import { useCreateTodo, useTodos } from "~/modules/todos/hooks";
 
 const Todos: NextPage = () => {
@@ -30,9 +30,7 @@ const Todos: NextPage = () => {
         />
         <ul className="divide-y rounded-md bg-white shadow-lg">
           {todos.data?.map((todo) => (
-            <li key={todo.id} className="px-5 py-4">
-              {todo.text}
-            </li>
+            <TodoItem key={todo.id} todo={todo} />
           ))}
         </ul>
       </main>
