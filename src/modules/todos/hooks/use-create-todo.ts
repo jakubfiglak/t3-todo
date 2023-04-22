@@ -15,7 +15,6 @@ export function useCreateTodo() {
 
       // Optimistically update to the new value
       ctx.todos.getAll.setData(undefined, (old) => [
-        ...(old || []),
         {
           id: generateRandomId(),
           text: input.text,
@@ -25,6 +24,7 @@ export function useCreateTodo() {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        ...(old || []),
       ]);
 
       return { previousTodos };

@@ -17,6 +17,7 @@ export const todosRouter = createTRPCRouter({
   getAll: privateProcedure.query(({ ctx }) => {
     return ctx.prisma.todo.findMany({
       where: { authorId: { equals: ctx.userId } },
+      orderBy: { createdAt: "desc" },
     });
   }),
 });
