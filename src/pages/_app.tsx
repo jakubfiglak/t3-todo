@@ -10,6 +10,7 @@ import { type AppType } from "next/app";
 import { Josefin_Sans } from "next/font/google";
 import { useRouter } from "next/router";
 
+import { AppLayout } from "~/layout/AppLayout";
 import { api } from "~/utils/api";
 
 const josefin = Josefin_Sans({
@@ -37,18 +38,20 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ClerkProvider {...pageProps}>
       <div className={`${josefin.variable} font-sans`}>
-        {isPublicPage ? (
-          <Component {...pageProps} />
-        ) : (
-          <>
-            <SignedIn>
-              <Component {...pageProps} />
-            </SignedIn>
-            <SignedOut>
-              <RedirectToSignIn />
-            </SignedOut>
-          </>
-        )}
+        <AppLayout>
+          {isPublicPage ? (
+            <Component {...pageProps} />
+          ) : (
+            <>
+              <SignedIn>
+                <Component {...pageProps} />
+              </SignedIn>
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
+            </>
+          )}
+        </AppLayout>
       </div>
     </ClerkProvider>
   );
