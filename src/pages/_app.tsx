@@ -9,6 +9,7 @@ import {
 import { type AppType } from "next/app";
 import { Josefin_Sans } from "next/font/google";
 import { useRouter } from "next/router";
+import { Toaster } from "react-hot-toast";
 
 import { AppLayout } from "~/layout/AppLayout";
 import { ThemeProvider } from "~/providers/theme";
@@ -59,6 +60,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
               </>
             )}
           </AppLayout>
+          <Toaster position="top-center" />
         </ThemeProvider>
       </ClerkProvider>
     </>

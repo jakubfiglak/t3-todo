@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 import { api } from "~/utils/api";
 import { generateRandomId } from "~/utils/helpers";
 
@@ -33,6 +35,14 @@ export function useCreateTodo() {
     // use the context returned from onMutate to roll back
     onError: (err, input, context) => {
       ctx.todos.getAll.setData(undefined, context?.previousTodos);
+
+      console.log(err.data);
+
+      const errorMessage =
+        err.data?.zodError?.fieldErrors.text?.[0] ||
+        "Failed to create todo! Please try again later";
+
+      toast.error(errorMessage);
     },
     // Always refetch after error or success:
     onSettled: () => {
