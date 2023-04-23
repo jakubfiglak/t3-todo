@@ -11,6 +11,7 @@ import { Josefin_Sans } from "next/font/google";
 import { useRouter } from "next/router";
 
 import { AppLayout } from "~/layout/AppLayout";
+import { ThemeProvider } from "~/providers/theme";
 import { api } from "~/utils/api";
 
 const josefin = Josefin_Sans({
@@ -38,20 +39,22 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ClerkProvider {...pageProps}>
       <div className={`${josefin.variable} font-sans`}>
-        <AppLayout>
-          {isPublicPage ? (
-            <Component {...pageProps} />
-          ) : (
-            <>
-              <SignedIn>
-                <Component {...pageProps} />
-              </SignedIn>
-              <SignedOut>
-                <RedirectToSignIn />
-              </SignedOut>
-            </>
-          )}
-        </AppLayout>
+        <ThemeProvider>
+          <AppLayout>
+            {isPublicPage ? (
+              <Component {...pageProps} />
+            ) : (
+              <>
+                <SignedIn>
+                  <Component {...pageProps} />
+                </SignedIn>
+                <SignedOut>
+                  <RedirectToSignIn />
+                </SignedOut>
+              </>
+            )}
+          </AppLayout>
+        </ThemeProvider>
       </div>
     </ClerkProvider>
   );
