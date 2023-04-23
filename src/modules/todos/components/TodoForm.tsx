@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+
 import type { CreateTodoInput } from "~/server/api/routers/todos";
 
 type TodoFormProps = {
@@ -6,19 +9,24 @@ type TodoFormProps = {
 };
 
 export const TodoForm = ({ onSubmit, className }: TodoFormProps) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitSuccessful },
+  } = useForm<CreateTodoInput>();
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit({
-          text: (e.target as unknown as { text: { value: string } }).text.value,
-        });
-      }}
-      className={className}
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className={className}>
       <input
+        {...register("text")}
         type="text"
-        name="text"
         placeholder="Create a new todo..."
         className="w-full rounded-md px-5 py-3"
       />
