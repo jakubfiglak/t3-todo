@@ -2,13 +2,10 @@ import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Head from "next/head";
 
-import { TodoForm, TodoItem } from "~/modules/todos/components";
-import { useCreateTodo, useTodos } from "~/modules/todos/hooks";
+import { TodosView } from "~/modules/todos/views";
 
 const Home: NextPage = () => {
   const { isSignedIn, user } = useUser();
-  const todos = useTodos();
-  const createTodo = useCreateTodo();
 
   return (
     <>
@@ -31,17 +28,7 @@ const Home: NextPage = () => {
       </header>
       <main className="px-6">
         {isSignedIn ? (
-          <div className="-mt-20">
-            <TodoForm
-              onSubmit={(data) => createTodo.mutate(data)}
-              className="mb-4"
-            />
-            <ul className="divide-y rounded-md bg-white shadow-lg">
-              {todos.data?.map((todo) => (
-                <TodoItem key={todo.id} todo={todo} />
-              ))}
-            </ul>
-          </div>
+          <TodosView className="-mt-20" />
         ) : (
           <div>Sign in to see your todos</div>
         )}
