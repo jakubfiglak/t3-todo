@@ -22,6 +22,7 @@ export default {
       cherywood: "#25273D",
       "light-steel-blue": "#E3E4F1",
       "dark-slate-blue": "#393A4B",
+      crimson: "#DC143C",
     },
   },
   plugins: [],
