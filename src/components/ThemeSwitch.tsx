@@ -12,9 +12,9 @@ export const ThemeSwitch = ({ className }: ThemeSwitchProps) => {
   return (
     <button onClick={toggleTheme} className={className}>
       {theme === "light" ? (
-        <MoonIcon className="h-5 w-5 text-white md:h-9 md:w-9" />
+        <MoonIcon className="h-5 w-5 text-white md:h-7 md:w-7" />
       ) : (
-        <SunIcon className="h-5 w-5 text-white md:h-9 md:w-9" />
+        <SunIcon className="h-5 w-5 text-white md:h-7 md:w-7" />
       )}
       <span className="sr-only">Toggle theme</span>
     </button>

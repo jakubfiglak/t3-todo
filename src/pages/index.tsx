@@ -16,7 +16,7 @@ const Home: NextPage = () => {
       </Head>
 
       {isSignedIn ? (
-        <TodosView className="-mt-20" />
+        <TodosView className="-mt-20 md:-mt-32" />
       ) : (
         <div>Sign in to see your todos</div>
       )}

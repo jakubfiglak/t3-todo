@@ -1,4 +1,5 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -35,10 +36,19 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             <h1 className="text-2xl font-bold tracking-widest text-white md:text-4xl">
               TODO
             </h1>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 text-white">
               <ThemeSwitch />
+              {isSignedIn && (
+                <Image
+                  alt={`${user.firstName || "User"} avatar`}
+                  src={user.profileImageUrl}
+                  height={36}
+                  width={36}
+                  className="rounded-full"
+                />
+              )}
+
               {isSignedIn ? <SignOutButton /> : <SignInButton />}
-              {isSignedIn && <span>{user.firstName}</span>}
             </div>
           </div>
         </LayoutContentWrapper>
