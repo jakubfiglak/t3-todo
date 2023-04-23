@@ -36,7 +36,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             <h1 className="text-2xl font-bold tracking-widest text-white md:text-4xl">
               TODO
             </h1>
-            <div className="flex items-center gap-3 text-white">
+            <div className="flex items-center gap-3 text-white md:gap-4">
               <ThemeSwitch />
               {isSignedIn && (
                 <Image

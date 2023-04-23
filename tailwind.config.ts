@@ -20,6 +20,8 @@ export default {
       "white-smoke": "#FAFAFA",
       "navy-blue": "#171823",
       cherywood: "#25273D",
+      "light-steel-blue": "#E3E4F1",
+      "dark-slate-blue": "#393A4B",
     },
   },
   plugins: [],
