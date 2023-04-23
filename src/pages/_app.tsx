@@ -37,8 +37,13 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   // If the current route is listed as public, render it directly
   // Otherwise, use Clerk to require authentication
   return (
-    <ClerkProvider {...pageProps}>
-      <div className={`${josefin.variable} font-sans`}>
+    <>
+      <style jsx global>{`
+        html {
+          font-family: ${josefin.style.fontFamily};
+        }
+      `}</style>
+      <ClerkProvider {...pageProps}>
         <ThemeProvider>
           <AppLayout>
             {isPublicPage ? (
@@ -55,8 +60,8 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             )}
           </AppLayout>
         </ThemeProvider>
-      </div>
-    </ClerkProvider>
+      </ClerkProvider>
+    </>
   );
 };
 
