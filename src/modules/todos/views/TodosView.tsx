@@ -1,5 +1,10 @@
 import { TodoForm, TodoItem } from "../components";
-import { useCreateTodo, useSetTodoStatus, useTodos } from "../hooks";
+import {
+  useCreateTodo,
+  useHideTodo,
+  useSetTodoStatus,
+  useTodos,
+} from "../hooks";
 
 type TodosViewProps = {
   className?: string;
@@ -9,6 +14,7 @@ export const TodosView = ({ className }: TodosViewProps) => {
   const todos = useTodos();
   const createTodo = useCreateTodo();
   const setTodoStatus = useSetTodoStatus();
+  const hideTodo = useHideTodo();
 
   return (
     <div className={className}>
@@ -24,7 +30,7 @@ export const TodosView = ({ className }: TodosViewProps) => {
                 status: todo.status === "ACTIVE" ? "COMPLETED" : "ACTIVE",
               })
             }
-            onHideButtonClick={() => console.log(todo)}
+            onHideButtonClick={() => hideTodo.mutate({ id: todo.id })}
           />
         ))}
       </ul>

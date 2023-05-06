@@ -13,4 +13,8 @@ export const setTodoStatusInput = z.object({
   status: z.nativeEnum(TodoStatus),
 });
 
+export const hideTodoInput = z.object({
+  id: z.string().cuid2(),
+});
+
 export type CreateTodoInput = z.infer<typeof createTodoInput>;
