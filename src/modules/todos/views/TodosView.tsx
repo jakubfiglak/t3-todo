@@ -1,7 +1,5 @@
-import { api } from "~/utils/api";
-
 import { TodoForm, TodoItem } from "../components";
-import { useCreateTodo, useTodos } from "../hooks";
+import { useCreateTodo, useSetTodoStatus, useTodos } from "../hooks";
 
 type TodosViewProps = {
   className?: string;
@@ -10,8 +8,7 @@ type TodosViewProps = {
 export const TodosView = ({ className }: TodosViewProps) => {
   const todos = useTodos();
   const createTodo = useCreateTodo();
-
-  const setTodoStatus = api.todos.setStatus.useMutation();
+  const setTodoStatus = useSetTodoStatus();
 
   return (
     <div className={className}>
