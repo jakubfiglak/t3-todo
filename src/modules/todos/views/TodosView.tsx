@@ -12,7 +12,7 @@ export const TodosView = ({ className }: TodosViewProps) => {
   return (
     <div className={className}>
       <TodoForm onSubmit={(data) => createTodo.mutate(data)} className="mb-4" />
-      <ul className="divide-y rounded-md bg-white shadow-lg">
+      <ul className="divide-y divide-light-steel-blue overflow-hidden rounded-md shadow-lg dark:divide-dark-slate-blue">
         {todos.data?.map((todo) => (
           <TodoItem key={todo.id} todo={todo} />
         ))}
