@@ -6,10 +6,17 @@ import { Checkbox } from "~/components/Checkbox";
 
 type TodoItemProps = {
   todo: Todo;
+  onCheckboxChange: () => void;
+  onHideButtonClick: () => void;
   className?: string;
 };
 
-export const TodoItem = ({ todo, className }: TodoItemProps) => {
+export const TodoItem = ({
+  todo,
+  onCheckboxChange,
+  onHideButtonClick,
+  className,
+}: TodoItemProps) => {
   return (
     <div
       className={twMerge(
@@ -20,7 +27,7 @@ export const TodoItem = ({ todo, className }: TodoItemProps) => {
       <Checkbox
         className="mr-3 md:mr-6"
         checked={todo.status === "COMPLETED"}
-        onChange={() => console.log(todo)}
+        onChange={onCheckboxChange}
       />
       <span
         className={twMerge(
@@ -31,7 +38,7 @@ export const TodoItem = ({ todo, className }: TodoItemProps) => {
       >
         {todo.text}
       </span>
-      <button className="ml-auto">
+      <button className="ml-auto" onClick={onHideButtonClick}>
         <XMarkIcon className="h-5 w-5 dark:text-dark-slate-blue md:h-6 md:w-6" />
       </button>
     </div>
