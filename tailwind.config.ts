@@ -23,6 +23,7 @@ export default {
       "light-steel-blue": "#E3E4F1",
       "dark-slate-blue": "#393A4B",
       crimson: "#DC143C",
+      "cornflower-blue": "#3A7CFD",
     },
   },
   plugins: [],
