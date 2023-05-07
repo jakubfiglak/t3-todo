@@ -47,7 +47,6 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                   className="rounded-full"
                 />
               )}
-
               {isSignedIn ? <SignOutButton /> : <SignInButton />}
             </div>
           </div>

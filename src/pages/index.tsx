@@ -1,11 +1,12 @@
-import { useUser } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import type { NextPage } from "next";
 import Head from "next/head";
 
+import { Spinner } from "~/components/Spinner";
 import { TodosView } from "~/modules/todos/views";
 
 const Home: NextPage = () => {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
 
   return (
     <>
@@ -15,11 +16,18 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {isSignedIn ? (
-        <TodosView className="-mt-20 md:-mt-32" />
-      ) : (
-        <div>Sign in to see your todos</div>
-      )}
+      {!isLoaded && <Spinner size={40} className="mt-4 flex justify-center" />}
+      {isLoaded &&
+        (isSignedIn ? (
+          <TodosView className="-mt-20 md:-mt-32" />
+        ) : (
+          <div className="mt-4 text-center">
+            <SignInButton>
+              <span className="cursor-pointer underline">Sign in</span>
+            </SignInButton>{" "}
+            to see your todos
+          </div>
+        ))}
     </>
   );
 };
