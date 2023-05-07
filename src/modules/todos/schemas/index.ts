@@ -22,3 +22,4 @@ export const hideTodoInput = z.object({
 });
 
 export type CreateTodoInput = z.infer<typeof createTodoInput>;
+export type GetAllTodosInput = z.infer<typeof getAllTodosInput>;

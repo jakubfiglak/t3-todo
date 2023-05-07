@@ -1,8 +1,14 @@
-import type { Todo } from "@prisma/client";
 import toast from "react-hot-toast";
 
 import { api } from "~/utils/api";
-import { generateRandomId } from "~/utils/helpers";
+
+import {
+  buildTodo,
+  cancelOutgoingRefetches,
+  getPreviousCacheValues,
+  refetch,
+  rollBack,
+} from "./utils";
 
 export function useCreateTodo() {
   const ctx = api.useContext();
@@ -11,26 +17,14 @@ export function useCreateTodo() {
     onMutate: async (input) => {
       // Cancel any outgoing refetches
       // (so they don't overwrite the optimistic update)
-      await ctx.todos.getAll.cancel({});
-      await ctx.todos.getAll.cancel({ status: "ACTIVE" });
-      await ctx.todos.getAll.cancel({ status: "COMPLETED" });
+      await cancelOutgoingRefetches(ctx);
 
       // Snapshot the previous value
-      const allPreviousTodos = ctx.todos.getAll.getData({});
-      const activePreviousTodos = ctx.todos.getAll.getData({
-        status: "ACTIVE",
-      });
+      const { allPreviousTodos, activePreviousTodos } =
+        getPreviousCacheValues(ctx);
 
       // Optimistically update to the new value
-      const newTodo: Todo = {
-        id: generateRandomId(),
-        text: input.text,
-        authorId: generateRandomId(),
-        status: "ACTIVE",
-        isVisible: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      const newTodo = buildTodo(input.text);
 
       ctx.todos.getAll.setData({}, (old) => [newTodo, ...(old || [])]);
       ctx.todos.getAll.setData({ status: "ACTIVE" }, (old) => [
@@ -42,12 +36,11 @@ export function useCreateTodo() {
     },
     // If the mutation fails,
     // use the context returned from onMutate to roll back
-    onError: (err, input, context) => {
-      ctx.todos.getAll.setData({}, context?.allPreviousTodos);
-      ctx.todos.getAll.setData(
-        { status: "ACTIVE" },
-        context?.activePreviousTodos
-      );
+    onError: (err, _input, context) => {
+      rollBack(ctx, {
+        all: context?.allPreviousTodos,
+        active: context?.activePreviousTodos,
+      });
 
       const errorMessage =
         err.data?.zodError?.fieldErrors.text?.[0] ||
@@ -56,9 +49,6 @@ export function useCreateTodo() {
       toast.error(errorMessage);
     },
     // Always refetch after error or success:
-    onSettled: () => {
-      void ctx.todos.getAll.invalidate({});
-      void ctx.todos.getAll.invalidate({ status: "ACTIVE" });
-    },
+    onSettled: () => refetch(ctx),
   });
 }
