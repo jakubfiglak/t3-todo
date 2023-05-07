@@ -43,7 +43,7 @@ export function useSetTodoStatus() {
 
         // If the new status is COMPLETED, we need to delete the item from the list
         if (input.status === "COMPLETED") {
-          return old.filter((todo) => todo.id === input.id);
+          return old.filter((todo) => todo.id !== input.id);
         }
 
         // If the new status is ACTIVE, we need to get the updated todo from the list of all todos and push it to the list
@@ -67,7 +67,7 @@ export function useSetTodoStatus() {
 
         // If the new status is ACTIVE, we need to delete the item from the list
         if (input.status === "ACTIVE") {
-          return old.filter((todo) => todo.id === input.id);
+          return old.filter((todo) => todo.id !== input.id);
         }
 
         // If the new status is COMPLETED, we need to get the updated todo from the list of all todos and push it to the list
