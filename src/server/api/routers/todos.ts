@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 
 import {
   createTodoInput,
+  getAllTodosInput,
   hideTodoInput,
   setTodoStatusInput,
 } from "~/modules/todos/schemas";
@@ -16,9 +17,13 @@ export const todosRouter = createTRPCRouter({
       },
     });
   }),
-  getAll: privateProcedure.query(({ ctx }) => {
+  getAll: privateProcedure.input(getAllTodosInput).query(({ ctx, input }) => {
     return ctx.prisma.todo.findMany({
-      where: { authorId: { equals: ctx.userId }, isVisible: true },
+      where: {
+        authorId: { equals: ctx.userId },
+        isVisible: true,
+        status: input.status,
+      },
       orderBy: { createdAt: "desc" },
     });
   }),

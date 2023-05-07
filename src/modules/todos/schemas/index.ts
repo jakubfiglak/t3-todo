@@ -8,6 +8,10 @@ export const createTodoInput = z.object({
     .max(250, { message: "Todo text must not be longer than 250 characters" }),
 });
 
+export const getAllTodosInput = z.object({
+  status: z.nativeEnum(TodoStatus).optional(),
+});
+
 export const setTodoStatusInput = z.object({
   id: z.string().cuid2(),
   status: z.nativeEnum(TodoStatus),
