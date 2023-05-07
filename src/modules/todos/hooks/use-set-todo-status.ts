@@ -88,7 +88,7 @@ export function useSetTodoStatus() {
     },
     // If the mutation fails,
     // use the context returned from onMutate to roll back
-    onError: (err, input, context) => {
+    onError: (err, _input, context) => {
       rollBack(ctx, {
         all: context?.allPreviousTodos,
         active: context?.activePreviousTodos,

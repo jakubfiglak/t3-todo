@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { StatusSelect, TodoForm, TodoItem } from "../components";
 import {
   useCreateTodo,
+  useHideCompleted,
   useHideTodo,
   useSetTodoStatus,
   useTodos,
@@ -20,6 +21,7 @@ export const TodosView = ({ className }: TodosViewProps) => {
   const createTodo = useCreateTodo();
   const setTodoStatus = useSetTodoStatus();
   const hideTodo = useHideTodo();
+  const hideCompleted = useHideCompleted();
 
   return (
     <div className={className}>
@@ -50,7 +52,10 @@ export const TodosView = ({ className }: TodosViewProps) => {
               items left
             </span>
             <StatusSelect className="hidden md:flex" />
-            <button className="transition-colors hover:text-gunmetal dark:hover:text-light-steel-blue">
+            <button
+              className="transition-colors hover:text-gunmetal dark:hover:text-light-steel-blue"
+              onClick={() => hideCompleted.mutate()}
+            >
               Clear Completed
             </button>
           </div>

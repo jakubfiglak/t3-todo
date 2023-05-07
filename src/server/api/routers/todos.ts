@@ -81,4 +81,10 @@ export const todosRouter = createTRPCRouter({
         data: { isVisible: false },
       });
     }),
+  hideCompleted: privateProcedure.mutation(async ({ ctx }) => {
+    return ctx.prisma.todo.updateMany({
+      where: { authorId: ctx.userId, status: "COMPLETED" },
+      data: { isVisible: false },
+    });
+  }),
 });
